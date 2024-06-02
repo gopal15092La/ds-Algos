@@ -1,0 +1,30 @@
+https://leetcode.com/contest/weekly-contest-400/problems/lexicographically-minimum-string-after-removing-stars/
+
+
+class Solution {
+public:
+    string clearStars(string s) {
+        // priority_queue<pair<char,int>> pq;
+        priority_queue <pair<char,int>, vector<pair<char,int>>, greater<pair<char,int>>> pq;
+        int n = s.length(); 
+        vector<int> id(n);
+        for(int i=0; i<n; i++){
+            char ch  = s[i];
+            if(ch != '*'){
+                pq.push({ch, n-i-1});
+            }else{
+                id[i] = 1;
+                int j = pq.top().second;
+                int jj = n - 1 - j;
+                id[jj] = -1;
+                pq.pop();
+            }
+        }
+        string res = "";
+        for(auto i=0; i<n; i++){
+            if(id[i] == 0) 
+                res += s[i];
+        }
+        return res;
+    }
+};
