@@ -1,0 +1,21 @@
+https://leetcode.com/contest/weekly-contest-400/problems/count-days-without-meetings/
+
+class Solution {
+public:
+    int countDays(int d, vector<vector<int>>& met) {
+        if(met.size() == 0) return d;
+        sort(met.begin(), met.end());
+        int ans = 0, n = met.size();
+        ans += met[0][0] - 1;
+        int pre = met[0][1];
+        for(int i=1; i<met.size(); i++){
+            int b = met[i][0] , a = met[i][1];
+            if(b > pre){
+                 ans += b - pre -1;
+            }
+            pre = max(pre,a );
+        }
+        ans += d - pre;
+        return ans;
+    }
+};
