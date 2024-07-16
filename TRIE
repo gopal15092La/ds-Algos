@@ -1,0 +1,57 @@
+struct Trie{
+    char val ;
+    int cnt ;
+    bool isA;
+    Trie* next[26];
+    Trie(){
+        val = '\0';
+        isA = false; cnt = 0;
+        for(int i=0; i<26; i++)
+            next[i] = nullptr;
+    }
+    Trie(char cc){
+        this->val = cc;
+        isA = false; cnt = 0;
+        for(int i=0; i<26; i++)
+            next[i] = nullptr;
+    }
+    bool isString(){
+        return isA;
+    }
+    bool count_string(){
+        return cnt;
+    }
+};
+void solve(){
+    vector<string> v = {"aba", "bca", "bb", "bca", "aba"};
+    Trie *root = new Trie();
+    auto insert = [&](const string &s){
+        Trie* node = root;
+        for(int i=0; i<s.length(); i++){
+            char c = s[i];
+            if(!node->next[c-'a']){
+                node->next[c-'a'] = new Trie(c);
+            }
+            node = node->next[c-'a'];
+        }
+        node->cnt++;
+        node->isA = true;
+    };
+    for(auto &s : v)
+        insert(s);
+
+    auto isPresent = [&](const string &s){
+        Trie*node = root;
+        int i=0, n = s.length();
+        while(i < n){
+            char c = s[i];
+            if(node->next[c-'a'] == nullptr)
+                return false;
+            node = node->next[c-'a'];
+            i++;
+        }
+        return node->isA;
+    };
+    cout<<"the result-01 : " <<(bool)(isPresent("abac"));
+    //
+}
